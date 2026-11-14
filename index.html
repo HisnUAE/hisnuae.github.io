@@ -241,7 +241,8 @@ footer p{max-width:80ch}
 {
 /* ===== YOUR DETAILS: fill these in, then re-upload the file ===== */
 var CFG={
-  email:"hisnsecurity.uae@gmail.com",   /* pilot requests are emailed here via FormSubmit; swap for your FormSubmit alias after activation */
+  formKey:"4d5ea01d6edb027eb0b56bdf563b63ba", /* FormSubmit alias: pilot requests go to the Hisn inbox */
+  email:"hisnsecurity.uae@gmail.com",       /* shown as the contact address in the footer */
   whatsapp:"",                      /* digits only with country code, e.g. "971501234567"; empty = WhatsApp buttons hidden */
   linkedin:"",     /* full URL to your LinkedIn company page */
   instagram:"",    /* full URL, e.g. "https://instagram.com/hisnsecurity" */
@@ -350,9 +351,10 @@ form.onsubmit=function(e){
   if(!document.getElementById('ok').checked){er.textContent='Please tick the box to confirm you’ve read this.';return;}
   if(g('hp'))return;
   er.textContent='';
-  if(!CFG.email){thanks(n,false);return;}
+  var key=CFG.formKey||CFG.email;
+  if(!key){thanks(n,false);return;}
   var b=document.getElementById('sub');b.disabled=true;b.textContent='Sending…';
-  fetch('https://formsubmit.co/ajax/'+encodeURIComponent(CFG.email),{
+  fetch('https://formsubmit.co/ajax/'+encodeURIComponent(key),{
     method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
     body:JSON.stringify({_subject:'New Hisn pilot application: '+(g('c')||n),_template:'table',_captcha:'false',
       Name:n,Email:m,Company:g('c'),Phone:g('p'),Staff:g('s'),Message:g('m')})
